@@ -8,9 +8,9 @@ from colorama import Fore, Style, init
 system("cls")
 init(autoreset=True)
 
-# create database connect, current memory
+# create database connect, current memory,":memory:"
 # change to r'room_booking_database.db' for production
-db = sqlite3.connect("memory")
+db = sqlite3.connect(":memory:")
 
 # create cursor
 db_cursor = db.cursor()
@@ -27,7 +27,9 @@ db_cursor.execute(
     )"""
 )
 
-db_cursor.execute("INSERT INTO Login VALUES ('Staff1', 'Password1', 'Staff', 'Alice')")
+db_cursor.execute(
+    "INSERT INTO Login VALUES ('Staff1', 'Password1', 'Staff', 'Alice')"
+    )
 db_cursor.execute(
     "INSERT INTO Login VALUES ('Student1', 'Password1', 'Student', 'Bob')"
 )
@@ -73,7 +75,7 @@ db_cursor.execute(
 print(
     """
 ---------------------------------
-| Welcome to SIM booking system |
+| Welcome to UOW booking system |
 ---------------------------------
 """
 )
@@ -303,7 +305,7 @@ Promotion code amount: {promocode_amount}%"""
                     print(
                         Style.BRIGHT
                         + Fore.GREEN
-                        + f"\nThe new capacity of the room is: ${db_return[0][0]} pax. "
+                        + f"\nThe new capacity of the room is: {db_return[0][0]} pax. "
                     )
                     break
 
@@ -498,9 +500,10 @@ def student_func():
                             + Fore.RED
                             + "The room is already booked at the desired hours."
                         )
-                    avail_check += 1
+                        avail_check += 1
 
-                if avail_check > 1:
+                if avail_check > 0:
+                    input("Press Enter to continue.")
                     system("cls")
                     continue
 
@@ -583,11 +586,13 @@ Room Code\t       Date/Time
                 db_return = db_cursor.fetchall()
 
                 for i in range(len(db_return)):
+                    start_unix = (db_return[i][1] - 1)
+                    end_unix = (db_return[i][2] + 1)
                     start_dt = time.strftime(
-                        "%d-%m-%Y %H%M", time.localtime(db_return[i][1])
+                        "%d-%m-%Y %H%M", time.localtime(start_unix)
                     )
                     end_dt = time.strftime(
-                        "%d-%m-%Y %H%M", time.localtime(db_return[i][2])
+                        "%d-%m-%Y %H%M", time.localtime(end_unix)
                     )
                     print(f"{i+1}) {db_return[i][0]}   {start_dt} to {end_dt}")
 
@@ -602,7 +607,7 @@ Room Code\t       Date/Time
                     "%d-%m-%Y %H%M", time.localtime(db_return[booking_select][2])
                 )
                 old_room_code = db_return[booking_select][0]
-                old_start_unix = db_return[i][1]
+                old_start_unix = db_return[booking_select][1]
                 system("cls")
                 print(
                     f"\nYou have selected: {db_return[booking_select][0]} {start_dt} to {end_dt}"
@@ -618,6 +623,7 @@ Please enter an option
                 )
                 if menu_input == "1":
                     print(div)
+                    avail_check = 0
                     date_input = input(
                         "\nEnter the new booking date: (DD-MM-YYYY - DD-MM-YYYY) "
                     )
@@ -674,7 +680,7 @@ Please enter an option
 
                     if avail_check > 1:
                         system("cls")
-                        continue
+                        break
 
                     db_cursor.execute(
                         f"""UPDATE Bookings SET bookingDTStart = {start_unix}, bookingDTEnd = {end_unix}
@@ -683,7 +689,7 @@ Please enter an option
                     db.commit()
                     system("cls")
                     print(Style.BRIGHT + Fore.GREEN + "Booking updated.")
-                    continue
+                    break
 
                 elif menu_input == "2":
                     print(div)
