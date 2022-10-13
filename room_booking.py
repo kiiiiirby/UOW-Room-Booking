@@ -27,9 +27,7 @@ db_cursor.execute(
     )"""
 )
 
-db_cursor.execute(
-    "INSERT INTO Login VALUES ('Staff1', 'Password1', 'Staff', 'Alice')"
-    )
+db_cursor.execute("INSERT INTO Login VALUES ('Staff1', 'Password1', 'Staff', 'Alice')")
 db_cursor.execute(
     "INSERT INTO Login VALUES ('Student1', 'Password1', 'Student', 'Bob')"
 )
@@ -586,14 +584,12 @@ Room Code\t       Date/Time
                 db_return = db_cursor.fetchall()
 
                 for i in range(len(db_return)):
-                    start_unix = (db_return[i][1] - 1)
-                    end_unix = (db_return[i][2] + 1)
+                    start_unix = db_return[i][1] - 1
+                    end_unix = db_return[i][2] + 1
                     start_dt = time.strftime(
                         "%d-%m-%Y %H%M", time.localtime(start_unix)
                     )
-                    end_dt = time.strftime(
-                        "%d-%m-%Y %H%M", time.localtime(end_unix)
-                    )
+                    end_dt = time.strftime("%d-%m-%Y %H%M", time.localtime(end_unix))
                     print(f"{i+1}) {db_return[i][0]}   {start_dt} to {end_dt}")
 
                 booking_select = int(
