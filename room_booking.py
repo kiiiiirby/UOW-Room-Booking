@@ -1,12 +1,7 @@
 import sqlite3
 import time
-from os import system
 from datetime import datetime
-from colorama import Fore, Style, init
-
-# initialise colorama
-system("cls")
-init(autoreset=True)
+from os import system
 
 # create database connect, current memory,":memory:"
 # change to r'room_booking_database.db' for production
@@ -14,8 +9,6 @@ db = sqlite3.connect(":memory:")
 
 # create cursor
 db_cursor = db.cursor()
-# DEBUG
-print(Fore.GREEN + "DEBUG: Connected to SQLite")
 
 # login table
 db_cursor.execute(
@@ -78,11 +71,11 @@ print(
 """
 )
 
-input(Style.BRIGHT + Fore.CYAN + "Press Enter to start...\n")
+input("Press Enter to start...\n")
 
 # login
 while True:
-    username_input = input(Style.RESET_ALL + "Enter your username: ")
+    username_input = input("Enter your username: ")
     pw_input = input("Enter your password: ")
 
     # Login check
@@ -98,7 +91,7 @@ while True:
             break
     else:
         system("cls")
-        print(Style.BRIGHT + Fore.RED + "\nUsername or Password incorrect!\n")
+        print("\nUsername or Password incorrect!\n")
         continue
 
 
@@ -106,7 +99,7 @@ while True:
 def staff_func():
     while True:
         print(div)
-        print(Style.BRIGHT + "\nPlease enter an option")
+        print("\nPlease enter an option")
         menu_input = input(
             """1) Create a room
 2) Launch a room
@@ -174,7 +167,7 @@ def staff_func():
                 )
                 db.commit()
                 system("cls")
-                print(Style.BRIGHT + Fore.GREEN + f"Room {room_code_input} created.")
+                print(f"Room {room_code_input} created.")
                 break
 
         # 2) Launch a room
@@ -190,7 +183,7 @@ def staff_func():
 
             # raise exception if room code is invalid
             if len(db_return) == 0:
-                print(Style.BRIGHT + Fore.RED + "The room code is invalid")
+                print("The room code is invalid")
                 break
             else:
                 promocode_amount = round((1 - db_return[0][3]) * 100)
@@ -213,7 +206,7 @@ Promotion code amount: {promocode_amount}%"""
                     )
                     db.commit()
                     system("cls")
-                    print(Style.BRIGHT + Fore.GREEN + "\nRoom launched.")
+                    print("\nRoom launched.")
                     # DEBUG
                     # db_cursor.execute(
                     #    f"SELECT roomLaunched FROM Rooms WHERE roomCode = '{room_code_input}'"
@@ -223,7 +216,7 @@ Promotion code amount: {promocode_amount}%"""
 
             else:
                 system("cls")
-                print(Style.BRIGHT + Fore.RED + "Room already active.")
+                print("Room already active.")
 
         # 3) Adjust the attributes of room
         elif menu_input == "3":
@@ -239,7 +232,7 @@ Promotion code amount: {promocode_amount}%"""
 
                 # raise exception if room code is invalid
                 if len(db_return) == 0:
-                    print(Style.BRIGHT + Fore.RED + "The room code is invalid")
+                    print("The room code is invalid")
                     continue
                 break
             print(div)
@@ -274,11 +267,7 @@ Promotion code amount: {promocode_amount}%"""
                     )
                     db_return = db_cursor.fetchall()
                     system("cls")
-                    print(
-                        Style.BRIGHT
-                        + Fore.GREEN
-                        + f"\nThe new price of the room is: ${db_return[0][0]}/hr. "
-                    )
+                    print(f"\nThe new price of the room is: ${db_return[0][0]}/hr. ")
                     break
 
                 # Change pax of room
@@ -300,11 +289,7 @@ Promotion code amount: {promocode_amount}%"""
                     )
                     db_return = db_cursor.fetchall()
                     system("cls")
-                    print(
-                        Style.BRIGHT
-                        + Fore.GREEN
-                        + f"\nThe new capacity of the room is: {db_return[0][0]} pax. "
-                    )
+                    print(f"\nThe new capacity of the room is: {db_return[0][0]} pax. ")
                     break
 
                 # Change discount code and amount
@@ -337,9 +322,7 @@ Promotion code amount: {promocode_amount}%"""
                     db_return = db_cursor.fetchall()
                     system("cls")
                     print(
-                        Style.BRIGHT
-                        + Fore.GREEN
-                        + f"\nThe new promotion code of the room is {db_return[0][0]} and the amount is {db_return[0][1]}"
+                        f"\nThe new promotion code of the room is {db_return[0][0]} and the amount is {db_return[0][1]}"
                     )
                     break
 
@@ -390,9 +373,7 @@ Promotion code amount: {promocode_amount}%"""
                     )
                     system("cls")
                     print(
-                        Style.BRIGHT
-                        + Fore.GREEN
-                        + f"\nThe new date and time the room is unavailable: {start_dt} to {end_dt}"
+                        f"\nThe new date and time the room is unavailable: {start_dt} to {end_dt}"
                     )
 
         # 4) Exit
@@ -404,7 +385,7 @@ Promotion code amount: {promocode_amount}%"""
         else:
             system("cls")
             print(div)
-            print(Style.BRIGHT + Fore.RED + "\nInvalid input.")
+            print("\nInvalid input.")
             continue
 
 
@@ -412,7 +393,7 @@ Promotion code amount: {promocode_amount}%"""
 def student_func():
     while True:
         print(div)
-        print(Style.BRIGHT + "\nPlease enter an option")
+        print("\nPlease enter an option")
         menu_input = input(
             """1) View available rooms
 2) Book rooms
@@ -442,7 +423,7 @@ def student_func():
                 print(
                     f"{db_return[i][0]}\t ${db_return[i][1]}/hr\t        {db_return[i][2]} Pax"
                 )
-            input(Style.BRIGHT + "\nPress Enter to continue...")
+            input("\nPress Enter to continue...")
             system("cls")
 
         # Book rooms
@@ -475,11 +456,7 @@ def student_func():
                 db_return = db_cursor.fetchall()
 
                 if db_return[0][0] != 0:
-                    print(
-                        Style.BRIGHT
-                        + Fore.RED
-                        + "The room is not available at the desired hours."
-                    )
+                    print("The room is not available at the desired hours.")
                     avail_check += 1
 
                 else:
@@ -493,11 +470,7 @@ def student_func():
                     db_return = db_cursor.fetchall()
 
                     if db_return[0][0] != 0:
-                        print(
-                            Style.BRIGHT
-                            + Fore.RED
-                            + "The room is already booked at the desired hours."
-                        )
+                        print("The room is already booked at the desired hours.")
                         avail_check += 1
 
                 if avail_check > 0:
@@ -536,7 +509,7 @@ def student_func():
                             )
                             break
                         else:
-                            print(Style.BRIGHT + Fore.RED + "\nInvalid promotion code")
+                            print("\nInvalid promotion code")
                             continue
 
                     else:
@@ -553,9 +526,7 @@ def student_func():
                 system("cls")
 
                 print(
-                    Style.BRIGHT
-                    + Fore.GREEN
-                    + f"""
+                    f"""
 Your booking for Room {room_code_input} will be from {start_dt} to {end_dt}
 The estimated cost is ${booking_price}
                 """
@@ -647,11 +618,7 @@ Please enter an option
                     db_return = db_cursor.fetchall()
 
                     if db_return[0][0] != 0:
-                        print(
-                            Style.BRIGHT
-                            + Fore.RED
-                            + "The room is not available at the desired hours."
-                        )
+                        print("The room is not available at the desired hours.")
                         avail_check += 1
                         continue
 
@@ -667,11 +634,7 @@ Please enter an option
                     db_return = db_cursor.fetchall()
 
                     if db_return[0][0] != 0:
-                        print(
-                            Style.BRIGHT
-                            + Fore.RED
-                            + "The room is already booked at the desired hours."
-                        )
+                        print("The room is already booked at the desired hours.")
                         avail_check += 1
 
                     if avail_check > 1:
@@ -684,14 +647,12 @@ Please enter an option
                     )
                     db.commit()
                     system("cls")
-                    print(Style.BRIGHT + Fore.GREEN + "Booking updated.")
+                    print("Booking updated.")
                     break
 
                 elif menu_input == "2":
                     print(div)
-                    menu_input = input(
-                        Style.BRIGHT + Fore.RED + "Confirm cancellation? (Y/N)"
-                    )
+                    menu_input = input("Confirm cancellation? (Y/N)")
 
                     if menu_input == "Y":
                         db_cursor.execute(
@@ -700,7 +661,7 @@ Please enter an option
                         )
                         db.commit()
                         system("cls")
-                        print(Style.BRIGHT + Fore.RED + "Booking deleted.")
+                        print("Booking deleted.")
                         break
 
         elif menu_input == "4":
@@ -711,7 +672,7 @@ Please enter an option
         else:
             system("cls")
             print(div)
-            print(Style.BRIGHT + Fore.RED + "\nInvalid input.")
+            print("\nInvalid input.")
             continue
 
 
@@ -721,9 +682,7 @@ name = db_return[0][2]
 
 print(div)
 print(
-    Style.BRIGHT
-    + Fore.CYAN
-    + f"""
+    f"""
 Hello, {name}."""
 )
 if type_of_user == "Staff":
@@ -733,7 +692,7 @@ else:
 
 
 # end
-print(Style.BRIGHT + Fore.CYAN + "\nThank you.")
+print("\nThank you.")
 
 # commit to database
 db.commit()
