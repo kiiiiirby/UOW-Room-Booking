@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+
+    {% if len == 0 %}
+    <h1 class="display-2">No Rooms Created</h1>
+
+    {% else %}
+    <h1 class="display-2 pb-5">Edit room attributes</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Room</th>
+                <th scope="col">Price</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Promo</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(len) %}
+            {% set roomcode = db_return_list[i][0] %}
+            {% set promo_amount = db_return_list[i][4] %}
+            {% set promo_amount = (1-promo_amount)*100 %}
+            {% set promo_amount = promo_amount|round|int %}
+            <tr>
+                <td>{{ roomcode }}</td>
+                <td>${{db_return_list[i][1]}}/hr</td>
+                <td>{{db_return_list[i][2]}} pax</td>
+                <td>{{db_return_list[i][5]}}</td>
+                <td>{{db_return_list[i][6]}}</td>
+                <td>{{db_return_list[i][3]}} ({{promo_amount}}%)</td>
+                <td><a class="btn btn-warning" href="{{ url_for('staff3', type=roomcode) }}">Edit</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+
+</div>
+{% endblock %}

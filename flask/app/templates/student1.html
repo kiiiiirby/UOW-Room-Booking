@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+
+    {% if len == 0 %}
+    <p class="display-2">No Rooms Available</p>
+
+    {% else %}
+    <h1 class="display-2 pb-5">New Booking</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Room</th>
+                <th scope="col">Price</th>
+                <th scope="col">Capacity</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(len) %}
+            {% set roomcode = db_return[i][0] %}
+            <tr>
+                <td>{{ roomcode }}</td>
+                <td>${{db_return[i][1]}}/hr</td>
+                <td>{{db_return[i][2]}} pax</td>
+                <td><a class="btn btn-warning" href="{{ url_for('student1', type=roomcode) }}">Book</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+</div>
+{% endblock %}
