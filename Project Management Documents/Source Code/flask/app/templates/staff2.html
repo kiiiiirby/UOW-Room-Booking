@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+
+    {% if len == 0 %}
+    <h1 class="display-2">No Inactive Rooms</h1>
+
+    {% else %}
+    <h1 class="display-2 pb-5">Launch a room</h1>
+    <h1 class="display-5 pb-2">Inactive Rooms</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Room</th>
+                <th scope="col">Price</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Promo</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(len) %}
+            {% set roomcode = db_return[i][0] %}
+            {% set promo_amount = db_return[i][4] %}
+            {% set promo_amount = (1-promo_amount)*100 %}
+            {% set promo_amount = promo_amount|round|int %}
+            <tr>
+                <td>{{ roomcode }}</td>
+                <td>${{db_return[i][1]}}/hr</td>
+                <td>{{db_return[i][2]}} pax</td>
+                <td>{{db_return[i][3]}} ({{promo_amount}}%)</td>
+                <td><a class="btn btn-warning" href="{{ url_for('staff2', type=roomcode) }}">Activate</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+
+</div>
+{% endblock %}

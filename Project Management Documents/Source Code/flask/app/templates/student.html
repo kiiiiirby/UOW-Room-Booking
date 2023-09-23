@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if type_of_user == "Student" %}
+<h1 class="display-2 pb-5 ">Hello, {{ name_of_user }}!</h1>
+
+<div>
+    {% if len == 0 %}
+    <p class="display-6 pb-1"> No bookings. </p>
+    {% else %}
+    <p class="display-6 pb-1"> My Bookings</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Room</th>
+                <th scope="col">Start</th>
+                <th scope="col">End</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(len) %}
+            {% set start_dt = db_return_list[i][1] %}
+            <tr>
+                <td>{{ db_return_list[i][0] }}</td>
+                <td>{{ start_dt }}</td>
+                <td>{{db_return_list[i][2]}}</td>
+                <td><a class="btn btn-warning" href="{{ url_for('student', type=start_dt) }}">Edit</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <p>
+        <a class="btn btn-primary col-12 btn-lg mt-3" href="{{ url_for('student1') }}">New</a>
+    </p>
+</div>
+{% else %}
+<h1> <a href="{{ url_for('login') }}"> Please login. </a></h1>
+{% endif %}
+
+{% endblock %} # end of block content
