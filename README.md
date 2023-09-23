@@ -4,7 +4,14 @@ Staffs can create a room, launch a room, adjust the price, date/time, promotiona
 
 **Link to project:** https://kiirby.pythonanywhere.com/login
 
-**Tech used:** Python, Flask, SQLite3, HTML, CSS, Bootstrap, JavaScript
+**Tech used:** Python, Flask, WTForms, SQLAlchemy, HTML, CSS, Bootstrap, JavaScript
 
 ## Lessons Learned:
-This project was taught me about the power of Python libraries and opened my eye to how versatile the language when coupled together with the countless libraries written by enthusiast. I learnt the basics of using Flask and how easy it is to interface a Python program with SQL using SQL libraries such as SQLite3. I also refreshed my knowledge of web development and working with CSS libraries like Bootstrap and how to create and manipulate a database system. As this was a project for a IT Project Management moduele, I learnt how to manage a IT project and the various documentation required to document a project and it's relevant attributes like cost and schedule. I learnt how to deploy a Python project and maintain it. 
+This project was taught me about the power of Python libraries and opened my eye to how versatile the language when coupled together with the countless libraries written by enthusiast. 
+
+- The basics of using Flask, how to use the library to develop web applicaitons using Python as well as libraries to enhance the functionality of Flask such as WTForms for data validation, CSRF protection and Flask-Login for user session managmenet. 
+- How to interface a Python program with SQL using SQL libraries such as SQLite3.
+- How to create and manipulate a SQL database.
+- Refreshed my knowledge of web development and working with CSS libraries like Bootstrap
+- How to deploy a Python project and maintain it. 
+- As this was a project for a IT Project Management moduele, I learnt how to manage a IT project and the various documentation required to document a project and it's relevant attributes such as cost and schedule as well as creating and executing testing documents and cases and risk assessment.
